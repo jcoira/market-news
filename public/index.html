@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Market Dashboard</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background:#0f1115; color:white; }
+    .box { background:#1a1f2b; padding:15px; margin:15px 0; border-radius:10px; }
+    a { color:#4da3ff; }
+  </style>
+</head>
+<body>
+
+<h1>📊 Pro Market Dashboard</h1>
+
+<div class="box">
+<h2>📰 News</h2>
+<ul id="news"></ul>
+</div>
+
+<div class="box">
+<h2>📅 Economic Calendar</h2>
+<ul id="calendar"></ul>
+</div>
+
+<script>
+fetch("/api/daily")
+.then(r => r.json())
+.then(data => {
+
+  const news = document.getElementById("news");
+  data.news.forEach(n => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${n.url}" target="_blank">${n.headline}</a>`;
+    news.appendChild(li);
+  });
+
+  const cal = document.getElementById("calendar");
+  data.calendar.forEach(e => {
+    const li = document.createElement("li");
+    li.innerText = `${e.time || ''} ${e.event || ''}`;
+    cal.appendChild(li);
+  });
+
+});
+</script>
+
+</body>
+</html>
